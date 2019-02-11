@@ -1,4 +1,4 @@
-# vue-firebase
+# Curso Vue Firebase em Espanhol | Udemy
 
 ## Project setup
 ```
