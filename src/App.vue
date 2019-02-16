@@ -1,95 +1,97 @@
 <template>
-  <div id="app" class="principal">
+  <v-app>
+    <v-navigation-drawer v-model="menu" app temporary>
+      <v-list>
+        <v-list-tile @click="selecionar('home')">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="'Home'"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="selecionar('perfil')">
+          <v-list-tile-action>
+            <v-icon>account_circle</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="'Perfil'"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="selecionar('registro')">
+          <v-list-tile-action>
+            <v-icon>contact_mail</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="'Registro'"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="selecionar('login')">
+          <v-list-tile-action>
+            <v-icon>arrow_forward</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="'Login'"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar color="primary" dark app>
+      <v-toolbar-side-icon @click="menu = !menu"></v-toolbar-side-icon>
+      <v-toolbar-title @click="componentAtual = 'home'" class="headline logo">
+        <span>{{ titulo }}</span>
+      </v-toolbar-title>
+    </v-toolbar>
 
-    <span>{{ titulo }}</span>
-    <div>
-      <button @click="componentAtual = item.nome" v-for="(item, index) in menu" :key="index" class="menu">{{ item.descricao }}</button>
-    </div>
-    <component :is="componentAtual"></component>
-    
-  </div>
+    <v-content>
+      <v-container fluid fill-height>
+        <v-slide-y-transition  mode="out-in">
+          <component :is="componentAtual"></component>
+        </v-slide-y-transition>
+      </v-container>
+    </v-content>
+
+    <v-footer color="primary" dark>
+      <v-layout justify-center>
+        <span>Curso Vue Firebase em Espanhol - Washington Cardoso</span>
+      </v-layout>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
+import Home from "@/views/Home.vue";
+import Login from "@/views/usuario/Login.vue";
+import Perfil from "@/views/usuario/Perfil.vue";
+import Registro from "@/views/usuario/Registro.vue";
 
-import Entrada from '@/views/Entrada.vue'
-import Home from '@/views/Home.vue'
-import Login from '@/views/usuario/Login.vue'
-import Perfil from '@/views/usuario/Perfil.vue'
-import Registro from '@/views/usuario/Registro.vue'
-
-export default {  
-  name: 'App',
+export default {
+  components: { Home, Login, Perfil, Registro },
+  name: "App",
   data() {
     return {
-      titulo: 'Entradas',
-      componentAtual: 'entrada',
-      menu: [
-        { descricao: 'Home', nome: 'home' },
-        { descricao: 'Entradas', nome: 'entrada' },
-        { descricao: 'Perfil', nome: 'perfil' },
-        { descricao: 'Login', nome: 'login' },
-        { descricao: 'Registro', nome: 'registro' }
-      ]
-    }
+      titulo: "Super Opera",
+      componentAtual: "home",
+      menu: false
+    };
   },
-  components: { Entrada, Home, Login, Perfil, Registro }
-}
-
+  methods: {
+    selecionar(view) {
+      this.componentAtual = view;
+      this.menu = false;
+    }
+  }
+};
 </script>
 
 
-
 <style>
-html {
-  font-size: 62.5% !important; /* 10px / 16px = 0.625 */
-}
 
-.menu {
-  color: white;
-  background-color: transparent;
-  font-weight: normal;
-  font-size: 1.8rem;
-  margin: 3px 2px;
-}
+@import url("https://fonts.googleapis.com/css?family=Great+Vibes");
 
-.principal {
-  background-color: #a21010;
-  padding: 10px;
-  color: white;
-  border-radius: 5px;
-  width: 400px;
-  font-size: 3rem;
-  text-align: center;
-}  
+ .logo {
+    font-family: 'Great Vibes', cursive !important;
+    cursor: pointer;
+  }
 
-a {
-  text-decoration: none;
-  color: #553f75;
-}
-
-button {
-  background-color: #553f75;
-  color: white;
-  font-size: 2.4rem;
-  font-weight: bold;
-  border-style: none;
-  border-radius: 5px;
-  padding: 3px 10px;
-  margin: 3px 5px;
-  min-width: 35px;
-  cursor: pointer;
-}
-
-button:focus {
-  outline: 0;
-}
-
-input[type='text'] {
-  border-radius: 5px;
-  font-size: 2.4rem;
-  width: 100%;
-  line-height: 4rem;
-  padding: 3px;
-}
 </style>
